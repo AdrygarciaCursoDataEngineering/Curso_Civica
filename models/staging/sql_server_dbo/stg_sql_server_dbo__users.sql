@@ -10,10 +10,11 @@ with source as (
 
 renamed as (
     select
-        * EXCLUDE(created_at, _FIVETRAN_SYNCED, _LOADED_AT)
-        ,  created_at                               as created_at_utc
-        , _FIVETRAN_SYNCED                         as FIVETRAN_SYNCED_utc
-        , _LOADED_AT                               as is_deleted_utc
+        * exclude(created_at, updated_at, _fivetran_deleted, _fivetran_synced)
+        , created_at                               as created_at_utc
+        , updated_at                               as updated_at_utc
+        , coalesce(_fivetran_deleted, false)       as is_deleted
+        , _fivetran_synced                         as date_load
     from source
 )
 

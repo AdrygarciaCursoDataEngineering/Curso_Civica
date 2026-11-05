@@ -45,7 +45,7 @@ models:
     #     almacenamiento y siempre reflejan Bronze.
     staging:
       +materialized: view
-      +database: DEV_BRONZE_DB
+      +database: DEV_SILVER_DB
       sql_server_dbo:
         +schema: sql_server_dbo
       google_sheets:

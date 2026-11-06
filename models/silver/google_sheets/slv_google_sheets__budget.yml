@@ -10,8 +10,4 @@ models:
                     to: ref('slv_sql_server_dbo__products')
                     field: PRODUCT_ID
         - name: QUANTITY_BUDGETED
-          data_tests:
-              - dbt_utils.accepted_range:
-                  arguments:
-                      min_values: 0
-                      inclusive: true
+          data_tests: [positive_values]

@@ -6,5 +6,10 @@ sources:
       - name: budget
         columns:
           - name: _row
+            data_tests: [not_null, unique]
+          - name: PRODUCT_ID
             data_tests:
-              - not_null
+              - relationships:
+                  arguments:
+                    to: ref('stg_sql_server_dbo__products')
+                    field: PRODUCT_ID

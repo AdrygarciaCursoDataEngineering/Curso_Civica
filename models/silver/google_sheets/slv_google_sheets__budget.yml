@@ -1,0 +1,13 @@
+models:
+    - name: slv_google_sheets__budget
+      columns:
+        - name: BUDGET_ID
+          data_tests: [unique, not_null]
+        - name: PRODUCT_ID
+          data_tests:
+              - relationships:
+                  arguments:
+                    to: ref('slv_sql_server_dbo__products')
+                    field: PRODUCT_ID
+        - name: QUANTITY_BUDGETED
+          data_tests: [positive_values]

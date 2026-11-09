@@ -96,3 +96,14 @@ seeds:
         country_code: varchar(2)
         country_name: varchar(100)
         continent: varchar(50)
+
+    # =============================================================================
+# Snapshots (día 5)
+# =============================================================================
+# Historial SCD2 en Silver. Nunca transient: un snapshot es la única copia de
+# la historia y no se puede reconstruir desde Bronze.
+snapshots:
+  curso_data_engineering:
+    +database: DEV_SILVER_DB
+    +schema: snapshots
+    +transient: false

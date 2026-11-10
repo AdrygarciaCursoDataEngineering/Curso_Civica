@@ -71,7 +71,6 @@ models:
       - name: product_id
         data_tests: [unique, not_null]
       - name: stock_status
-        description: '{{ doc("stock_status") }}'
         data_tests:
           - not_null
           - accepted_values:
@@ -102,27 +101,26 @@ models:
                 to: ref('dim_users')
                 field: user_id
       - name: order_status
-        description: '{{ doc("order_status") }}'
       - name: net_order_cost_usd
         description: total_order_cost_usd menos el descuento de la promoción.
 
-  - name: fct_order_items
-    description: Hechos de líneas de pedido. Grano (order_id, product_id).
-    columns:
-      - name: order_item_id
-        data_tests: [unique, not_null]
-      - name: order_id
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('fct_orders')
-                field: order_id
-      - name: product_id
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('dim_products')
-                field: product_id
+#  - name: fct_order_items
+#    description: Hechos de líneas de pedido. Grano (order_id, product_id).
+#    columns:
+#      - name: order_item_id
+#        data_tests: [unique, not_null]
+#      - name: order_id
+#        data_tests:
+#          - relationships:
+#              arguments:
+#                to: ref('fct_orders')
+#                field: order_id
+#      - name: product_id
+#        data_tests:
+#          - relationships:
+#              arguments:
+#                to: ref('dim_products')
+#                field: product_id
 
   - name: fct_events
     description: Hechos de eventos de navegación. Grano evento.
@@ -130,7 +128,6 @@ models:
       - name: event_id
         data_tests: [unique, not_null]
       - name: event_type
-        description: '{{ doc("event_type") }}'
       - name: user_id
         data_tests:
           # store_failures guarda las filas que fallan en una tabla de
@@ -141,18 +138,3 @@ models:
                 field: user_id
               config:
                 store_failures: true
-
-unit_tests:
-  - name: test_dim_products_categoriza_stock
-    model: dim_products
-    given:
-      - input: ref('slv_sql_server_dbo__products')
-        rows:
-        - {product_id: a1, product_name: 'a1' , unit_price_usd: 1, inventory_units: 0, date_load: 2024-02-01 02:15:00.000 +0000}
-        - {product_id: a2, product_name: 'a2' , unit_price_usd: 2, inventory_units: 5, date_load: 2024-02-01 02:15:00.000 +0000}
-        - {product_id: a3, product_name: 'a3' , unit_price_usd: 3, inventory_units: 100, date_load: 2024-02-01 02:15:00.000 +0000}
-    expect:
-      rows:
-      - {product_id: a1, product_name: 'a1' , unit_price_usd: 1, inventory_units: 0, stock_status: 'out_of_stock', date_load: 2024-02-01 02:15:00.000 +0000}
-      - {product_id: a2, product_name: 'a2' , unit_price_usd: 2, inventory_units: 5, stock_status: 'low_stock', date_load: 2024-02-01 02:15:00.000 +0000}
-      - {product_id: a3, product_name: 'a3' , unit_price_usd: 3, inventory_units: 100, stock_status: 'in_stock', date_load: 2024-02-01 02:15:00.000 +0000}

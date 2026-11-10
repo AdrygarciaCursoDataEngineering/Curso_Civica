@@ -40,3 +40,11 @@ snapshots:
     columns:
       - name: dbt_scd_id
         data_tests: [unique, not_null]
+
+  - name: users_snapshot
+    relation: source('google_sheets', 'budget')
+    config:
+      unique_key: _row
+      strategy: timestamp
+      updated_at: _fivetran_synced
+      hard_deletes: new_record

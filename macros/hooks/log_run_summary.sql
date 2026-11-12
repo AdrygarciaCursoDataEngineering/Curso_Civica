@@ -4,7 +4,7 @@
    on-run-end recibe la variable `results` con el resultado de cada nodo.
    Esta macro solo escribe un resumen en el log y devuelve SQL vacío, de modo
    que no lanza ninguna query contra Snowflake.
-   =============================================================================#}
+   ============================================================================= #}
 {% macro log_run_summary(results) %}
     {% if execute %}
         {% set ok = results | selectattr('status', 'in', ['success', 'pass']) | list | length %}

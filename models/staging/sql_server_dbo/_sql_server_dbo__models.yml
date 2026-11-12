@@ -22,6 +22,7 @@ models:
       - name: order_id
         data_tests: [not_null]
       - name: order_status
+        description: '{{ doc("order_status") }}'
 
   - name: stg_sql_server_dbo__order_items
     description: Líneas de pedido con clave sustituta order_item_id.
@@ -48,6 +49,7 @@ models:
       - name: promo_id
         data_tests: [not_null]
       - name: promo_status
+        description: '{{ doc("promo_status") }}'
 
   - name: stg_sql_server_dbo__events
     description: Eventos de navegación de Bronze renombrados y casteados.
@@ -55,3 +57,4 @@ models:
       - name: event_id
         data_tests: [not_null]
       - name: event_type
+        description: '{{ doc("event_type") }}'

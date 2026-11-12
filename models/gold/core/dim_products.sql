@@ -2,6 +2,9 @@
 -- dim_products
 -- =============================================================================
 -- Dimensión de productos con una categorización del stock.
+-- Día 6: el umbral de "poco stock" es la variable de proyecto
+-- low_stock_threshold (dbt_project.yml). Se puede cambiar sin tocar SQL:
+--   dbt build --select dim_products --vars '{low_stock_threshold: 20}'
 -- =============================================================================
 
 with products as (
@@ -16,7 +19,7 @@ final as (
         , inventory_units
         , case
             when inventory_units = 0 then 'out_of_stock'
-            when inventory_units < 10 then 'low_stock'
+            when inventory_units < {{ var('low_stock_threshold') }} then 'low_stock'
             else 'in_stock'
           end                                       as stock_status
         , date_load

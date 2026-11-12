@@ -1,18 +1,12 @@
-with orders as (
-    select
-        order_id
-    from {{ ref('fct_orders') }}
-),
-
-order_items as(
-    select
-        order_id
-    from {{ ref('slv_sql_server_dbo__orders_items') }}
-)
+-- =============================================================================
+-- Test singular: todo pedido debe tener al menos una línea de pedido.
+-- =============================================================================
+-- Devuelve los pedidos de fct_orders que no aparecen en fct_order_items.
+-- =============================================================================
 
 select
-    *
-from orders as a
-left order_items as b
-    on a.order_id=b.order_id
-where b.order_id is null
+      o.order_id
+    , o.order_created_at_utc
+from {{ ref('fct_orders') }} o
+left join {{ ref('fct_order_items') }} oi on o.order_id = oi.order_id
+where oi.order_id is null

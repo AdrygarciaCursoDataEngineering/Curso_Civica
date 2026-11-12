@@ -11,7 +11,20 @@ with orders as (
 
 cleaned as (
     select
-        * exclude(is_deleted)
+          order_id
+        , user_id
+        , address_id
+        , promo_id
+        , order_status
+        , shipping_service
+        , tracking_id
+        , created_at_utc
+        , estimated_delivery_at_utc
+        , delivered_at_utc
+        , shipping_cost_usd
+        , order_cost_usd
+        , order_total_usd
+        , date_load
     from orders
     where not is_deleted
     qualify row_number() over (partition by order_id order by date_load desc) = 1

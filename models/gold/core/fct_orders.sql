@@ -30,7 +30,6 @@ final as (
         , discount_usd
         , order_total_usd - discount_usd            as net_order_cost_usd
         , date_load
-        , order_total_usd*0.91                           as total_order_cost_euros
     from orders
 )
 

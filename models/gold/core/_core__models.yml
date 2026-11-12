@@ -181,8 +181,6 @@ models:
               arguments:
                 to: ref('dim_users')
                 field: user_id
-              config:
-                store_failures: true
 
 unit_tests:
   # Fixture CSV en el expect (tests/fixtures/dim_users__email_expected.csv) e
